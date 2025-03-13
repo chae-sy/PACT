@@ -27,7 +27,7 @@ parser.add_argument('--arch', '-a', metavar='ARCH', default='resnet32',
                     ' (default: resnet32)')
 parser.add_argument('-j', '--workers', default=4, type=int, metavar='N',
                     help='number of data loading workers (default: 4)')
-parser.add_argument('--epochs', default=200, type=int, metavar='N',
+parser.add_argument('--epochs', default=1, type=int, metavar='N',
                     help='number of total epochs to run')
 parser.add_argument('--start-epoch', default=0, type=int, metavar='N',
                     help='manual epoch number (useful on restarts)')
@@ -68,6 +68,7 @@ def main():
     # Check the save_dir exists or not
     if not os.path.exists(args.save_dir):
         os.makedirs(args.save_dir)
+    print('models initialized')
     model = torch.nn.DataParallel(resnet.__dict__[args.arch]())
     model.cuda()
 
@@ -150,6 +151,8 @@ def main():
         }, is_best, filename=os.path.join(args.save_dir, 'model.th'))
         '''
         print("Best prec1 : ", best_prec1)
+        
+    print(model)
 
 def train(train_loader, model, criterion, optimizer, epoch):
     """
@@ -161,6 +164,7 @@ def train(train_loader, model, criterion, optimizer, epoch):
     top1 = AverageMeter()
 
     # switch to train mode
+    print('train the models')
     model.train()
 
     end = time.time()
