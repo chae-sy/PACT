@@ -55,6 +55,8 @@ parser.add_argument('--save-dir', dest='save_dir',
 parser.add_argument('--save-every', dest='save_every',
                     help='Saves checkpoints at every specified number of epochs',
                     type=int, default=10)
+parser.add_argument('--download_path', dest='download_path', type=str,
+                    help='path to download dataset', default='./data')
 best_prec1 = 0
 
 
@@ -90,7 +92,7 @@ def main():
                                      std=[0.229, 0.224, 0.225])
 
     train_loader = torch.utils.data.DataLoader(
-        datasets.CIFAR10(root='<path_to_data>', train=True, transform=transforms.Compose([
+        datasets.CIFAR10(root=args.download_path, train=True, transform=transforms.Compose([
             transforms.RandomHorizontalFlip(),
             transforms.RandomCrop(32, 4),
             transforms.ToTensor(),
@@ -100,7 +102,7 @@ def main():
         num_workers=args.workers, pin_memory=True)
 
     val_loader = torch.utils.data.DataLoader(
-        datasets.CIFAR10(root='<path_to_data>', train=False, transform=transforms.Compose([
+        datasets.CIFAR10(root=args.download_path, train=False, transform=transforms.Compose([
             transforms.ToTensor(),
             normalize,
         ])),
