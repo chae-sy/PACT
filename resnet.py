@@ -146,8 +146,8 @@ class ResNet(nn.Module):
 
     def forward(self, x):
         # initial conv+bn+activation
-        out = self.bn1(self.conv1(x)
-        out = self.ActFn(out), self.alpha1, K)
+        out = self.bn1(self.conv1(x))
+        out = self.ActFn(out, self.alpha1, K)
         
         # layer1, layer2, layer3
         out = self.layer1(out)
